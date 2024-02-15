@@ -2,13 +2,14 @@
 const nextConfig = {
     images: {
 
-         /*  domains:[
-            "localhost","https://buycomms-fullstack-h58c.vercel.app"
-        ], */   
-           remotePatterns:[
+          /*  domains:[
+            "localhost","buycommswith-mongo.vercel.app"
+        ], */  
+            remotePatterns:[
         {
             protocol: "https",
-            hostname: "**",
+            hostname: "**.vercel.app",
+            port:"",
        
         },
        ],     
