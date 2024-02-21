@@ -47,7 +47,7 @@ console.log(data)
         pending ? (<div> Loading ...</div>) : (
 
           <div className="flex w-screen overflow-x-scroll justify-between gap-5">
-          {data?.map((item) => (
+          {data.map((item) => (
          <div key={item._id}>
            <Link href={`/prodPage/${item._id}`}>
              <div
