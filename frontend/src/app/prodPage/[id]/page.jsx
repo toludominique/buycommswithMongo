@@ -75,7 +75,7 @@ function page({ params }) {
 
 
 
-  const single = data?.find((item) => item._id === id);
+  const single = data.find((item) => item._id === id);
 
   /*  const handleClick = () => {
     setImage()
