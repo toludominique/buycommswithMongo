@@ -10,24 +10,34 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 //import ProgressBar from '@/components/ProgressBar';
 import axios from 'axios';
 //import { productAdd } from '@/Redux/apiCalls';
+
 import { useSelector } from 'react-redux';
 import noimage from '../../../public/assets/no image.jpg';
 
+
 function page() {
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
   const [addProduct, setAddProduct] = useState({
     name: '',
-    category: '',
-    price: '',
     desc: '',
+    price: '',
+    image: null,
+    category: '',
     amount: 0
   });
+
   const user = useSelector(state => state.user)
 
   const [progressBar, setProgressBar] = useState(0);
 
   const [uploadFile, setUploadFile] = useState(null);
+
+  console.log(uploadFile)
+
+
   const [preview, setPreview] = useState('');
+
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -35,11 +45,33 @@ function page() {
    //productAdd({name,category,price,desc}, dispatch)
   };
 
+
   const handleFile = (e) => {
     const file = e.target.files[0];
-    setUploadFile(file);
-    setPreview(URL.createObjectURL(file));
+
+ 
+      setUploadFile(file);
+    setPreview(URL.createObjectURL(file));  
+  
+
+    //transformFile(file)
   };
+
+
+
+   /*   const transformFile = (file) => {
+     const reader = new FileReader()
+
+     if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setUploadFile(reader.result)
+      }
+     }else{
+      setUploadFile("")
+     }
+  }   */
+ 
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -47,12 +79,14 @@ function page() {
     const formData = new FormData();
 
     formData.append('name', addProduct.name);
-    formData.append('category', addProduct.category);
-    formData.append('price', addProduct.price);
     formData.append('desc', addProduct.desc);
-    formData.append('amount', addProduct.amount);
+    formData.append('price', addProduct.price);
+    formData.append('category', addProduct.category);
     formData.append('image', uploadFile);
-    /*  try {
+    formData.append('amount', addProduct.amount);
+
+/* 
+      try {
   const response = await fetch("http://localhost:8800/addProduct", {
     method: 'POST',
     body: formData,
@@ -64,26 +98,30 @@ function page() {
   
  } catch (error) {
   console.log(error)
- } */
-try {
+ }  */
+
+
+ try {
+
     const response = await axios
       .post(`${apiUrl}/addProduct`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+       // headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: (event) => {
           setProgressBar(Math.round(100 * event.loaded) / event.total);
         },
       })
-   /*    .then((res => console.log("worked")))
-      .catch((err) => console.log(err)); */
-
+     /*   .then((res => console.log("worked")))
+      .catch((err) => console.log(err)); 
+ */
       if (response.status === 200) {
         console.log('Request successful');
         // Clear the form or reset necessary state
         setAddProduct({
+
           name: '',
-          category: '',
-          price: '',
           desc: '',
+          price: '',
+          category: '',
           amount: 0,
         });
         setUploadFile(null);
@@ -94,7 +132,7 @@ try {
       console.log('Error during request:', error);
       // Handle error or show an error message to the user
     }
-
+ 
       const data = Object.fromEntries(formData)
       console.log(data)
      
@@ -146,7 +184,7 @@ try {
 
             <div className="sm:w-10/12 h-10 ml-5 mt-2 border-0 rounded-md">
               <div className="flex justify-between gap-1 items-center ">
-                {preview ? (
+                {uploadFile ? (
                   <Image src={preview} alt="" width={30} height={30} />
                 ) : <Image src={noimage} alt="" width={30} height={30}/>}
 
@@ -171,7 +209,7 @@ try {
                 name="name"
                 type="text"
                 value={addProduct.name}
-                placeholder=" Name"
+                placeholder="Name"
                 onChange={handleChange}
                 className="w-4/5 ml-5 mt-2 h-10  border-2 border-gray-300 rounded-md"
               />

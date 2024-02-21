@@ -2,17 +2,20 @@
 const nextConfig = {
     images: {
 
-          /*  domains:[
-            "localhost","buycommswith-mongo.vercel.app"
-        ], */  
-            remotePatterns:[
+      /*   loader: "cloudinary",
+        path: 'https://res.cloudinary.com/dqpimecmi/image/upload' */
+
+              /* domains:[
+           "res.cloudinary.com", "localhost",
+        ],    */
+               remotePatterns:[
         {
             protocol: "https",
-            hostname: "**.vercel.app",
+            hostname: "res.cloudinary.com",
             port:"",
        
-        },
-       ],     
+        }, 
+       ],   
     },
 };
 

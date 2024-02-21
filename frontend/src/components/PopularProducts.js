@@ -54,7 +54,7 @@ console.log(data)
              
                className="bg-slate-200 relative mb-2 rounded-md w-60 h-80"
              >
-               <Image className=" absolute"  src={`${apiUrl}/${item.image}`} alt=""  objectFit='cover' fill={true}/>
+               <Image className=" absolute"   src={`${item.image}`} alt="" objectFit='cover' fill />
                <div className="absolute  w-7 h-7 bg-white ml-2 mt-2 rounded-full">
                  <FaRegHeart className="ml-1 mt-2" />
                </div>

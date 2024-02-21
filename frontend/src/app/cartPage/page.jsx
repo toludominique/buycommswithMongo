@@ -48,7 +48,7 @@ function page() {
                     className=" flex items-center p-2 justify-between w-full h-32"
                   >
                     <Image
-                      src={`${apiUrl}/${item.image}`}
+                      src={item.image}
                       alt=""
                       width={100}
                       height={150}

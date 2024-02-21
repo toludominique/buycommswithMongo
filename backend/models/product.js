@@ -11,6 +11,9 @@ const productSchema = new mongoose.Schema(
     amount: Number,
   },
   {
+    timestamps: true
+  },
+  {
     collection: 'producttables',
   }
 );

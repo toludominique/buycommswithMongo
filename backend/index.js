@@ -1,11 +1,13 @@
 
 import 'dotenv/config.js';
-import express, { json } from 'express';
+import express from 'express';
 import cors from 'cors';
 //import mysql from 'mysql';
 import mongoose  from 'mongoose';
 import multer from 'multer';
 import path from 'path';
+import { v2 as cloudinary } from "cloudinary";
+import bodyParser from 'body-parser';
 import productModel from "./models/product.js";
 
 
@@ -19,11 +21,16 @@ app.listen(8800, () => {
 //middleware
 
  app.use(express.json())
- app.use(cors())
+ app.use(cors({
+
+   origin: "http://localhost:3000",
+  
+ }))
+ app.use(bodyParser.json())
  app.use(express.static('images'))
 
 
- const storage = multer.diskStorage({
+   const storage = multer.diskStorage({
    destination: (req, file, cb) => {
       cb(null, 'images')
    },
@@ -36,14 +43,22 @@ app.listen(8800, () => {
 
  const upload = multer({
    storage: storage,
- })
+ }) 
+ 
 
+   
 
- app.get("/", (req,res) => {
+ cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET
+ }) 
+ 
+  app.get("/", (req,res) => {
     res.json("hello this is the new backend")
  })
-
- /* app.get("/popularproducts", (req,res) => {
+/*
+  app.get("/popularproducts", (req,res) => {
    const q = "SELECT * FROM producttable"
 
    db.query(q, (err,data) => {
@@ -90,11 +105,11 @@ app.listen(8800, () => {
    })
 
   
- }) */
+ }) 
 
 
 
- /* const db = mysql.createConnection({
+  const db = mysql.createConnection({
 
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -102,7 +117,7 @@ app.listen(8800, () => {
     database: process.env.DB_DATABASE,
     port: process.env.DB_PORT
  })
- */
+  */
 
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -122,7 +137,46 @@ app.get("/popularproducts", async (req,res) => {
  });
 
 
- app.post("/addProduct", upload.single('image'), async (req,res) => {
+  app.post("/addProduct", upload.single("image"), async (req,res) => {
+
+   const { name, desc, price, category, amount } = req.body;
+
+  
+   try {
+      let imageUrl = "";
+
+      if(req.file){
+
+        const uploadRes = await cloudinary.uploader.upload(req.file.path, {
+               upload_preset: "buycomms",
+         });
+        console.log(uploadRes)
+         imageUrl = uploadRes.secure_url;
+
+         if(uploadRes){
+
+            productModel.create({
+               name,
+               desc,
+               price,       
+               image: imageUrl,
+               category,
+               amount
+            })
+            
+            return res.json("Product successfully added!")
+         }
+
+      }
+
+   } catch (error) {
+      res.json(error)
+   }
+     
+   })
+ 
+
+/*  app.post("/addProduct", upload.single('image'), async (req,res) => {
 
  
 
@@ -143,7 +197,7 @@ app.get("/popularproducts", async (req,res) => {
       res.json(error)
    }
      
-   })
+   }) */
 
 
 /*  app.get("/popularproducts/:id", async (req,res) => {

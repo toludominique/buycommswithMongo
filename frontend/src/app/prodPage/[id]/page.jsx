@@ -82,7 +82,7 @@ function page({ params }) {
   
   }
      */
-  console.log(image);
+  console.log(single?.image);
   return (
     <div className="flex flex-col gap-3">
       <div className=" flex justify-between w-full items-center h-10 font-light bg-gray-300 text-xs">
@@ -149,7 +149,7 @@ function page({ params }) {
             ) : (
               <div className=" w-80 h-96 relative">
                 <Image
-                  src={`${apiUrl}/${single?.image}`}
+                  src={single?.image}
                   alt="/"
                   fill
                   objectFit="cover"
@@ -167,12 +167,12 @@ function page({ params }) {
             <div className=" w-16 h-24 relative ml-3 mt-5">
               <Image
                 className=" absolute"
-                src={`${apiUrl}/${single?.image}`}
+                src={single?.image}
                 alt=""
                 fill
                 objectFit="cover"
                 onClick={() =>
-                  setImage(`${apiUrl}/${single.image}`)
+                  setImage(single?.image)
                 }
               />
             </div>
