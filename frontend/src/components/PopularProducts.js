@@ -11,7 +11,10 @@ import Image from 'next/image';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getData } from '@/Redux/productSlice';
+<<<<<<< HEAD
 import Link from 'next/link';
+=======
+>>>>>>> ffcb3da220c7460d1809181ff999057be6199ddf
 import { useRouter } from 'next/navigation';
 
 
@@ -53,7 +56,11 @@ console.log(data)
           <div className="flex w-screen overflow-x-scroll justify-between gap-5">
           {data.map((item) => (
          <div key={item._id}>
+<<<<<<< HEAD
            <button className='bg-red-500' type='button' onClick={()=>router.push(`/prodPage/${item._id}`)}>
+=======
+           <button type='button' onClick={()=>router.push(`/prodPage/${item._id}`)}>
+>>>>>>> ffcb3da220c7460d1809181ff999057be6199ddf
              <div
              
                className="bg-slate-200 relative mb-2 rounded-md w-60 h-80"
