@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { getData } from '@/Redux/productSlice';
+import { useRouter } from 'next/navigation';
 
 
  
@@ -18,6 +19,8 @@ import { getData } from '@/Redux/productSlice';
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
   const {data, pending} = useSelector((state) => state.product)
+
+  const router = useRouter()
 
 console.log(data)
 
@@ -49,7 +52,7 @@ console.log(data)
           <div className="flex w-screen overflow-x-scroll justify-between gap-5">
           {data.map((item) => (
          <div key={item._id}>
-           <Link href={`https://buycommswith-mongo-frontend.vercel.app/prodPage/${item._id}`}>
+           <button type='button' onClick={()=>router.push(`/prodPage/${item._id}`)}>
              <div
              
                className="bg-slate-200 relative mb-2 rounded-md w-60 h-80"
@@ -59,7 +62,7 @@ console.log(data)
                  <FaRegHeart className="ml-1 mt-2" />
                </div>
              </div>
-           </Link>
+           </button>
 
            <div>
              <p className="text-xs font-bold">{item.name}</p>
